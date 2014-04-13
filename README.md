@@ -5,4 +5,4 @@ Takes an input video, and outputs a png of the average frame.
 
 Usage
 ==========
-	AverageFrame.jar test.mp4
+	java -jar AverageFrame.jar example.mp4
