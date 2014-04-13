@@ -11,15 +11,19 @@ import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.MediaListenerAdapter;
 import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
+import com.xuggle.xuggler.IContainer;
 
 public class AverageFrame {
+	private static int currentFrame = 0;
 	private static int totalFrames = 0;
 	private static int[][][] imageRGB;
 
 	public static void main(String[] args) {
-		IMediaReader mediaReader = ToolFactory.makeReader(args[0]);
+		IMediaReader mediaReader = ToolFactory.makeReader(args.length >= 1 ? args[0] : "AverageFrame.mp4");
 		mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 		mediaReader.addListener(new ImageSnapListener());
+
+		setTotalFrames(args.length >= 1 ? args[0] : "AverageFrame.mp4");
 
 		while (mediaReader.readPacket() == null);
 
@@ -43,13 +47,23 @@ public class AverageFrame {
 		}
 	}
 
+	public static void setTotalFrames(String videoFile) {
+		IContainer container = IContainer.make();
+		container.open(videoFile, IContainer.Type.READ, null);
+
+		totalFrames = (int)container.getStream(1).getNumFrames();
+
+		container.close();
+	}
+
 	private static class ImageSnapListener extends MediaListenerAdapter {
 
 		@Override
 		public void onVideoPicture(IVideoPictureEvent event) {
 			BufferedImage image = event.getImage();
 
-			if (totalFrames == 0) {
+			currentFrame++;
+			if (currentFrame == 1) {
 				imageRGB = new int[image.getWidth()][image.getHeight()][3];
 			}
 
@@ -63,7 +77,7 @@ public class AverageFrame {
 				}
 			}
 
-			totalFrames++;
+			System.out.printf("\r %.2f%%", (double)currentFrame / totalFrames * 100);
 		}
 	}
 }
