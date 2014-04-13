@@ -45,6 +45,8 @@ public class AverageFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		System.out.print("\rFinished!");
 	}
 
 	public static void setTotalFrames(String videoFile) {
@@ -77,7 +79,7 @@ public class AverageFrame {
 				}
 			}
 
-			System.out.printf("\r %.2f%%", (double)currentFrame / totalFrames * 100);
+			System.out.printf("\r%.2f%%", (double)currentFrame / totalFrames * 100);
 		}
 	}
 }
