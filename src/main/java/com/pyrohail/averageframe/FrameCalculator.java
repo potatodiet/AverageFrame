@@ -4,6 +4,11 @@ import org.opencv.core.Mat;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Handles the mathematical calculations for creating the average frame.
+ *
+ * @author Justin Harrison
+ */
 public final class FrameCalculator {
 	private final VideoReader videoReader;
 	private final int totalFrames;
@@ -11,12 +16,20 @@ public final class FrameCalculator {
 	private int[][][] imageRGB;
 	private BufferedImage image;
 
+	/**
+	 * FrameCalculator constructor
+	 *
+	 * @param videoReader used for reading the video file
+	 */
 	public FrameCalculator(final VideoReader videoReader) {
 		this.videoReader = videoReader;
 		// 7 = CV_CAP_PROP_FRAME_COUNT
 		totalFrames = (int) videoReader.getVideoCapture().get(7);
 	}
 
+	/**
+	 * Calculates the average frame.
+	 */
 	public void calculateAverageFrame() {
 		while (true) {
 			final Mat image = videoReader.getFrame();
@@ -44,6 +57,9 @@ public final class FrameCalculator {
 		}
 	}
 
+	/**
+	 * Averages each pixel's value by the total number of frames in the video.
+	 */
 	private void normalizeImageRGB() {
 		for (int x = 0; x < imageRGB.length; x++) {
 			for (int y = 0; y < imageRGB[0].length; y++) {
@@ -54,6 +70,11 @@ public final class FrameCalculator {
 		}
 	}
 
+	/**
+	 * imageRGB getter
+	 *
+	 * @return imageRGB
+	 */
 	public int[][][] getImageRGB() {
 		return imageRGB;
 	}

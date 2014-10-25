@@ -9,10 +9,18 @@ import java.awt.image.DataBufferByte;
 
 import static org.opencv.imgcodecs.Imgcodecs.imwrite;
 
+/**
+ * Creates a BufferedImage from a pixel array and can write the image to disk.
+ */
 public final class FrameImageWriter {
 	private final BufferedImage frameImage;
 	private final int[][][] imageRGB;
 
+	/**
+	 * FrameImageWriter constructor
+	 *
+	 * @param imageRGB pixel array
+	 */
 	public FrameImageWriter(int[][][] imageRGB) {
 		this.imageRGB = imageRGB;
 		frameImage = new BufferedImage(imageRGB.length, imageRGB[0].length, BufferedImage.TYPE_3BYTE_BGR);
@@ -20,6 +28,9 @@ public final class FrameImageWriter {
 		saveImage();
 	}
 
+	/**
+	 * Creates the BufferedImage from the pixel array.
+	 */
 	private void createImage() {
 		for (int x = 0; x < imageRGB.length; x++) {
 			for (int y = 0; y < imageRGB[0].length; y++) {
@@ -32,10 +43,18 @@ public final class FrameImageWriter {
 		}
 	}
 
+	/**
+	 * Saves the image to disk.
+	 */
 	private void saveImage() {
 		imwrite("averageframe.png", convertImageToMat());
 	}
 
+	/**
+	 * Converts a BufferedImage to OpenCV's Mat type.
+	 *
+	 * @return the converted Mat object
+	 */
 	private Mat convertImageToMat() {
 		byte[] data = ((DataBufferByte) frameImage.getRaster().getDataBuffer()).getData();
 		Mat mat = new Mat(frameImage.getHeight(), frameImage.getWidth(), CvType.CV_8UC3);
