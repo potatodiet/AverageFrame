@@ -15,7 +15,7 @@ public class AverageFrame {
 	 *
 	 * @param args command line arguments
 	 */
-	public static void main(String[] args) {
-		Brain brain = new Brain();
+	public static void main(final String[] args) {
+		Brain brain = new Brain(args[0]);
 	}
 }

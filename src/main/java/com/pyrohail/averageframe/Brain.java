@@ -11,8 +11,8 @@ public final class Brain {
 	/**
 	 * Brain constructor
 	 */
-	public Brain() {
-		final VideoReader videoReader = new VideoReader("averageframe.mp4");
+	public Brain(final String fileName) {
+		final VideoReader videoReader = new VideoReader(fileName);
 		final FrameCalculator frameCalculator = new FrameCalculator(videoReader);
 		frameCalculator.calculateAverageFrame();
 		final FrameImageWriter frameImageWriter = new FrameImageWriter(frameCalculator.getImageRGB());
