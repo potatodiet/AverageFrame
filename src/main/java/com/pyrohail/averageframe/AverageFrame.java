@@ -16,6 +16,9 @@ public class AverageFrame {
 	 * @param args command line arguments
 	 */
 	public static void main(final String[] args) {
-		Brain brain = new Brain(args[0]);
+		final VideoReader videoReader = new VideoReader(args[0]);
+		final FrameCalculator frameCalculator = new FrameCalculator(videoReader);
+		frameCalculator.calculateAverageFrame();
+		final FrameImageWriter frameImageWriter = new FrameImageWriter(frameCalculator.getImageRGB());
 	}
 }
