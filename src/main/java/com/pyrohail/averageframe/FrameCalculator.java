@@ -31,12 +31,9 @@ public final class FrameCalculator {
 	 * Calculates the average frame.
 	 */
 	public void calculateAverageFrame() {
-		while (true) {
-			final Mat image = videoReader.getFrame();
-			if (image.empty()) {
-				normalizeImageRGB();
-				break;
-			}
+		Mat image;
+		do {
+			image = videoReader.getFrame();
 
 			currentFrame++;
 			if (currentFrame == 1) {
@@ -53,8 +50,12 @@ public final class FrameCalculator {
 				}
 			}
 
+			// Show percentage of frames currently processed
+			// Uses carriage return to keep updating the same line
 			System.out.printf("\r%.2f%%", (double) currentFrame / totalFrames * 100);
-		}
+		} while (!image.empty());
+
+		normalizeImageRGB();
 	}
 
 	/**
